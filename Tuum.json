@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "1ddb2fcd-4abc-4d3f-9320-0ed882af3076",
+		"name": "RIFAQTEST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20655230"
+	},
+	"item": [
+		{
+			"name": "accessToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Token Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"const response = pm.response.json();",
+							"pm.globals.set(\"tummToken\",response.data.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-channel-code",
+						"value": "SYSTEM",
+						"type": "text"
+					},
+					{
+						"key": "x-tenant-code",
+						"value": "MB",
+						"type": "text"
+					},
+					{
+						"key": "x-auth-token",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"modular.system\",\n    \"password\": \"pass\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{authUrl}}",
+					"host": [
+						"{{authUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createPerson",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Person Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"const response = pm.response.json();",
+							"pm.globals.set(\"personId\",response.data.personId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-channel-code",
+						"value": "SYSTEM",
+						"type": "text"
+					},
+					{
+						"key": "x-tenant-code",
+						"value": "MB",
+						"type": "text"
+					},
+					{
+						"key": "x-auth-token",
+						"value": "{{tummToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"personTypeCode\":\"P\",\n\n\"identificationNumber\":{\n\"primary\":true,\n\"idNumber\":\"1141272271\",\n\"idCountryCode\":\"EE\"\n},\n\"addresses\":[\n{\n\"addressTypeCode\":\"R\",\n\"countryCode\":\"EE\",\n\"cityCounty\":\"Tallinn\",\n\"street1\":\"JUHKENTALI\"\n}\n],\n\"givenName\":\"Test\",\n\"surname\":\"User\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{personUrl}}",
+					"host": [
+						"{{personUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAccount",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Account Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"const response = pm.response.json();",
+							"pm.globals.set(\"accountId\",response.data.accountId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-channel-code",
+						"value": "SYSTEM",
+						"type": "text"
+					},
+					{
+						"key": "x-tenant-code",
+						"value": "MB",
+						"type": "text"
+					},
+					{
+						"key": "x-auth-token",
+						"value": "{{tummToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"accountTypeCode\": \"VIRTUAL\",\n  \"masterAccountId\": \"ID-1279\",\n  \"personName\": \"RIFAQ KHAN\",\n  \"residencyCountryCode\": \"EE\",\n  \"customerGroupCode\": \"GROUP_A\",\n  \"priceListTypeCode\": \"STANDARD\",\n  \"currencyCode\": \"EUR\",\n  \"accountTypeSetupCode\": \"STANDARD\",\n  \"serviceProviderCode\": \"TUUM\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{accountUrl}}/{{personId}}/accounts",
+					"host": [
+						"{{accountUrl}}"
+					],
+					"path": [
+						"{{personId}}",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "accountTransaction",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Transaction Created\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-channel-code",
+						"value": "SYSTEM",
+						"type": "text"
+					},
+					{
+						"key": "x-tenant-code",
+						"value": "MB",
+						"type": "text"
+					},
+					{
+						"key": "x-auth-token",
+						"value": "{{tummToken}}",
+						"type": "text"
+					},
+					{
+						"key": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHBpcnlEVGltZSI6IjIwMjQtMDItMTNUMjE6Mzc6NDQiLCJyb2xlcyI6W10sIm5hbWUiOiJTeXN0ZW0gU3lzdGVtIiwiZW1wbG95ZWVJZCI6IjQiLCJ0ZW5hbnRDb2RlIjoiTUIiLCJleHAiOjE3MDc4NjAyNjR9.oSPBJLh4SH39OfsqmtG7YjCaaNk8VRvtjcWOfmeMmG0",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"transactionTypeCode\": \"CARD_PUR\",\n  \"money\": {\n    \"amount\": 10.22,\n    \"currencyCode\": \"EUR\"\n  },\n  \"valueDate\": \"2024-02-13\",\n  \"details\": \"Card purchase - New laptop purchase\",\n  \"referenceNumber\": \"CT20230606\",\n  \"source\": {\n    \"sourceName\": \"CARD\",\n    \"sourceRef\": \"ID-181922\"\n  },\n  \"merchantInfo\": \"{\\\"merchantName\\\":\\\"ComputerMARKT Gmbh\\\",\\\"merchantAddress\\\":\\\"Berlin, Germany\\\",\\\"terminalId\\\":\\\"54052345\\\",\\\"merchantType\\\":\\\"5541\\\",\\\"merchantTransactionId\\\":\\\"17e04828-6495-43f6-910b-5ec8cfa70873\\\"}\",\n  \"metaInfo\": \"{\\\"campaignCode\\\":\\\"1979\\\",\\\"customerRating\\\":\\\"11.77\\\",\\\"customerGroup\\\":\\\"GOLD\\\",\\\"orderMarketingId\\\":\\\"xxx1234450000\\\"}\",\n  \"contractSource\": {\n    \"sourceName\": \"LOAN.CONTRACT_HEADER\",\n    \"sourceRef\": \"ID-181922\",\n    \"contractNumber\": \"1122241515\"\n  },\n  \"transactionDTime\": \"2024-02-14T14:11:16Z\",\n  \"counterparty\": {\n    \"name\": \"Test test\",\n    \"accountNumber\": {\n      \"type\": \"IBAN\",\n      \"value\": \"EE711266266878335196\"\n    }\n  },\n  \"endToEndId\": \"20210203-E000003\",\n  \"paymentServiceProviderCode\": \"TUUM\",\n  \"labels\": [\n    \"SEPA_REGULAR\",\n    \"ACC_VIRTUAL\"\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{transactionUrl}}/{{accountId}}/transactions",
+					"host": [
+						"{{transactionUrl}}"
+					],
+					"path": [
+						"{{accountId}}",
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBalance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Balance checked\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-channel-code",
+						"value": "SYSTEM",
+						"type": "text"
+					},
+					{
+						"key": "x-tenant-code",
+						"value": "MB",
+						"type": "text"
+					},
+					{
+						"key": "x-auth-token",
+						"value": "{{tummToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{balanceUrl}}",
+					"host": [
+						"{{balanceUrl}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authUrl",
+			"value": "https://auth-api.sandbox.tuumplatform.com/api/v1/employees/authorise",
+			"type": "string"
+		},
+		{
+			"key": "personUrl",
+			"value": "https://person-api.sandbox.tuumplatform.com/api/v2/persons",
+			"type": "string"
+		},
+		{
+			"key": "accountUrl",
+			"value": "https://account-api.sandbox.tuumplatform.com/api/v4/persons",
+			"type": "string"
+		},
+		{
+			"key": "transactionUrl",
+			"value": "https://account-api.sandbox.tuumplatform.com/api/v4/accounts",
+			"type": "string"
+		},
+		{
+			"key": "balanceUrl",
+			"value": "https://account-api.sandbox.tuumplatform.com/api/v1/accounts/ID-2451/balances?currencyCode=EUR",
+			"type": "string"
+		}
+	]
+}
